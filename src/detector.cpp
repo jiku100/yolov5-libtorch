@@ -1,7 +1,11 @@
 #include "detector.h"
 
 
+const std::string device_string = "cuda:2";
+
 Detector::Detector(const std::string& model_path, const torch::DeviceType& device_type) : device_(device_type) {
+    
+
     try {
         // Deserialize the ScriptModule from a file using torch::jit::load().
         module_ = torch::jit::load(model_path);
@@ -12,7 +16,7 @@ Detector::Detector(const std::string& model_path, const torch::DeviceType& devic
     }
 
     half_ = (device_ != torch::kCPU);
-    module_.to(device_);
+    module_.to(device_string);
 
     if (half_) {
         module_.to(torch::kHalf);
@@ -44,7 +48,7 @@ Detector::Run(const cv::Mat& img, float conf_threshold, float iou_threshold) {
 
     cv::cvtColor(img_input, img_input, cv::COLOR_BGR2RGB);  // BGR -> RGB
     img_input.convertTo(img_input, CV_32FC3, 1.0f / 255.0f);  // normalization 1/255
-    auto tensor_img = torch::from_blob(img_input.data, {1, img_input.rows, img_input.cols, img_input.channels()}).to(device_);
+    auto tensor_img = torch::from_blob(img_input.data, {1, img_input.rows, img_input.cols, img_input.channels()}).to(device_string);
 
     tensor_img = tensor_img.permute({0, 3, 1, 2}).contiguous();  // BHWC -> BCHW (Batch, Channel, Height, Width)
 
