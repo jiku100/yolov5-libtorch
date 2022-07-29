@@ -54,7 +54,7 @@ class DetectionDriver{
         float pad_h;
         float scale;
 
-        DetectionDriver(int gpuIndex, const std::string coco_name_path, const cv::Size& image_size = cv::Size(1920, 1088));
+        DetectionDriver(int gpuIndex, const std::string coco_name_path, const cv::Size& image_input_size = cv::Size(1920, 1080), const cv::Size& model_input_size = cv::Size(1920, 1088));
         void Load_model(const std::string& model_name, const std::string& model_path);
         std::vector<float> LetterboxImage(const cv::Mat& src, cv::Mat& dst);
         std::vector<torch::jit::IValue> PreProcessing(const cv::Mat& img);

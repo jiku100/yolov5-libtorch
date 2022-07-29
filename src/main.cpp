@@ -9,7 +9,7 @@ void* DetWorker(void* index){
 
     std::string coco_label_path = "../weights/coco.names";
 
-    DetectionDriver detDriver(detGpu, coco_label_path, cv::Size(1920, 1088));
+    DetectionDriver detDriver(detGpu, coco_label_path, cv::Size(1920, 1080), cv::Size(1920, 1088));
 
     std::string model_path_prefix = std::string("/home/seokgyeongshin/torch_models/gpu");
     std::string model_name_prefix = std::string("yolov5");

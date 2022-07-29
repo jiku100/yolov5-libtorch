@@ -1,8 +1,9 @@
 #include "detection.h"
 
-DetectionDriver::DetectionDriver(int gpuIndex, const std::string coco_name_path, const cv::Size& image_size){
-    this->model_input_size = image_size;
-    this->fake_img = cv::Mat::zeros(model_input_size, CV_32FC3);
+DetectionDriver::DetectionDriver(int gpuIndex, const std::string coco_name_path, const cv::Size& image_input_size, const cv::Size& model_input_size){
+    this->image_input_size = image_input_size;
+    this->model_input_size = model_input_size;
+    this->fake_img = cv::Mat::zeros(this->image_input_size, CV_32FC3);
     this->device_string = "cuda:" + std::to_string(gpuIndex);
 
     // load class names
